@@ -14,14 +14,11 @@
 # 添加 Erlang 仓库（RabbitMQ 依赖）
 curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
 echo "deb https://dl.bintray.com/rabbitmq-erlang/debian $(lsb_release -sc) erlang-23.x" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
-
 # 添加 RabbitMQ 仓库
 echo "deb https://dl.bintray.com/rabbitmq/debian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
-
 # 安装 RabbitMQ
 sudo apt-get update
 sudo apt-get install rabbitmq-server
-
 # 启动服务
 sudo systemctl start rabbitmq-server
 sudo systemctl enable rabbitmq-server  # 设置开机自启
@@ -29,14 +26,9 @@ sudo systemctl enable rabbitmq-server  # 设置开机自启
 
 ```bash
 # 然后是开放 Linux 的防火墙端口
-
 # Ubuntu/Debian
 sudo ufw allow 5672/tcp # 5672 是 RabbitMQ 服务端口
 sudo ufw allow 15672/tcp # 15672 是 RabbitMQ 的后台管理端口
-
-# CentOS/RHEL
-sudo firewall-cmd --permanent --add-port=15672/tcp
-sudo firewall-cmd --reload
 ```
 ----
 
@@ -54,10 +46,8 @@ sudo yum install -y rabbitmq-server-3.12.7-1.el7
 
 # 启动RabbitMQ服务
 sudo systemctl start rabbitmq-server
-
 # 设置开机自启
 sudo systemctl enable rabbitmq-server
-
 # 检查服务状态
 sudo systemctl status rabbitmq-server
 ```
@@ -65,10 +55,8 @@ sudo systemctl status rabbitmq-server
 ```bash
 # 开放AMQP协议端口（默认5672）
 sudo firewall-cmd --permanent --add-port=5672/tcp
-
 # 开放管理界面端口（默认15672）
 sudo firewall-cmd --permanent --add-port=15672/tcp
-
 # 重新加载防火墙规则
 sudo firewall-cmd --reload
 ```
@@ -92,16 +80,12 @@ sudo rabbitmq-plugins enable rabbitmq_management
 
 # 创建新用户
 sudo rabbitmqctl add_user yourUserName yourPassword # 替换成你的账号密码
-
 # 创建虚拟主机
 sudo rabbitmqctl add_vhost yourvhost # 替换成你的虚拟主机
-
 # 为用户授予虚拟主机的权限
 sudo rabbitmqctl set_permissions -p yourvhost yourUserName ".*" ".*" ".*"
-
 # 查看用户权限
 sudo rabbitmqctl list_user_permissions yourUserName
-
 # 设置 yourUserName 为管理员角色
 # 这一步很重要，你要设置成管理员，后面才能登录后台管理页面
 sudo rabbitmqctl set_user_tags yourUserName administrator
@@ -121,7 +105,7 @@ sudo rabbitmqctl set_user_tags yourUserName administrator
 
 **接下来接入到 Spring 工程里**
 
-**properties**
+**application.properties**
 ```yml
 spring.application.name=RabbitMQDemo
 
